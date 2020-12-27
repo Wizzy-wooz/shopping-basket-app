@@ -12,7 +12,7 @@
 ##### <item1> <item2> <item3> - items to buy. <DOCKER_IMAGE_ID> - docker container name. Example: 
     docker run --rm -it default/shopping-basket-app Milk Apples Bread
     
-## Expected result
+## Expected result:
 **Output should be to the console, for example:**
 
 Subtotal: £3.10 

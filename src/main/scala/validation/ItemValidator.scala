@@ -7,7 +7,10 @@ import model.item.{Item, SpecialOffer}
 import constants._
 import scala.collection.mutable.ListBuffer
 
-
+/**
+  * Interface that defines ways of item's validation
+  *
+  */
 sealed trait ItemValidator {
 
   type ValidationResult[A] = ValidatedNel[String, A]
