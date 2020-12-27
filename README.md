@@ -49,7 +49,9 @@ Milk price:1.30£ qty:1
 
 Subtotal: £1.30
 
-(No offers available) Total price: £1.30
+(No offers available) 
+
+Total price: £1.30
 
 ## Improvements required:
   1. Increase test coverage of the application.
