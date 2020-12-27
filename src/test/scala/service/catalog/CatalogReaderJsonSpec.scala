@@ -1,6 +1,7 @@
 package service.catalog
 
 import com.typesafe.config.ConfigFactory
+import exceptions.FailedToLoadTheCatalog
 import model.catalog.Catalog
 import model.item.{Item, SpecialOffer, SupplementItem}
 import org.scalatest.GivenWhenThen
@@ -23,5 +24,25 @@ class CatalogReaderJsonSpec extends AnyFlatSpec with GivenWhenThen {
       Item("Apples", 1.00, Some(Seq(SpecialOffer(0.1, None))))
     ))
     assert(testtCatalog === expectedCatalog)
+  }
+
+  it should "throw exception if file does not exist" in {
+    Given("name of the json file with items")
+    val pathToCatalog = "catalogFilePathThatDoesNotExist"
+
+    Then("reader tries to decode json file exception should be thrown if file does not exist.")
+    assertThrows[FailedToLoadTheCatalog] {
+      CatalogReaderJson.getCurrentCatalogFromPath(s"/${ConfigFactory.load().getString(pathToCatalog)}")
+    }
+  }
+
+  it should "throw exception if file corrupted" in {
+    Given("name of the json file with items")
+    val pathToCatalog = "corruptedCatalog"
+
+    Then("reader tries to decode json file exception should be thrown if file corrupted.")
+    assertThrows[FailedToLoadTheCatalog] {
+      CatalogReaderJson.getCurrentCatalogFromPath(s"/${ConfigFactory.load().getString(pathToCatalog)}")
+    }
   }
 }

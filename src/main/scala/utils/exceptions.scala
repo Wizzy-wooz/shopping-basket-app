@@ -12,11 +12,12 @@ package object exceptions {
                                             private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 
   final case class InvalidItems(private val message: String = InvalidItemsMsg,
-                                            private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
+                                private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
+
+  final case class IncorrectlyProvidedSupplementItems(private val message: String = SupplementItemsIncorrectMsg,
+                                                      private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 
   final case class NotProvidedItems(private val message: String = s"No selected items. $IllegalInputArgsMsg",
                                     private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 
-  final case class IncorrectlyProvidedSupplementItems(private val message: String = SupplementItemsIncorrectMsg,
-                                                      private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 }

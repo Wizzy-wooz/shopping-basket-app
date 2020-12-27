@@ -1,0 +1,33 @@
+{
+  "items": [
+    {
+      "name" : "Soup",
+      "price" : 0,65
+    },
+    {
+      "name" : "Bread",
+      "price" : 0,80,
+      "specialOffers" : [{
+        "discount": 0,5,
+        "supplementItem": {
+          "item": {
+            "name" : "Soup",
+            "price" : 0,65
+          },
+          "quantity": 2
+        }
+      }]
+    },
+    {
+      "name" : "Milk",
+      "price" : 1,30
+    },
+    {
+      "name" : "Apples",
+      "price" : 1,00,
+      "specialOffers" : [{
+        "discount": 0,1
+      }]
+    }
+  ]
+}
