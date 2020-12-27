@@ -15,27 +15,41 @@
 ## Expected result
 Output should be to the console, for example:
 
-#####Subtotal: £3.10 
-#####Apples 10% off: 10p 
-#####Total price: £3.00
+Subtotal: £3.10 
+
+Apples 10% off: 10p 
+
+Total price: £3.00 
+
 If no special offers are applicable the code should output:
-#####Subtotal: £1.30
-#####(No offers available) 
-#####Total price: £1.30
+
+Subtotal: £1.30
+
+(No offers available) 
+
+Total price: £1.30
 
 ## Modification made:
 1. Added line with description of item, its price per item and quantity selected.
 2. Added special offer details.
 
 Output should be to the console, for example:
-#####Apples price:1.00£ qty:1
-#####Subtotal: £3.10 
-#####Apples 10% off: 10p 
-#####Total price: £3.00
+
+Apples price:1.00£ qty:1
+
+Subtotal: £3.10 
+
+Apples 10% off: 10p 
+
+Total price: £3.00
+
 If no special offers are applicable the code should output:
-#####Milk price:1.30£ qty:1
-#####Subtotal: £1.30
-#####(No offers available) Total price: £1.30
+
+Milk price:1.30£ qty:1
+
+Subtotal: £1.30
+
+(No offers available) Total price: £1.30
 
 ## Improvements required:
   1. Increase test coverage of the application.
