@@ -5,4 +5,4 @@ package model.receipt
   * @param purchases information about items in basket to be checkout
   *
   */
-case class Receipt(purchases: Set[Purchase])
+case class Receipt(purchases: Seq[Purchase])

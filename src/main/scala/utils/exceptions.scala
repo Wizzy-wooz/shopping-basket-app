@@ -1,19 +1,22 @@
-import constants.{CatalogContainsMalformedItems, FailedToLoadCatalog, IllegalInputArgsMessage, SupplementItemsIncorrectMessage}
+import constants._
 
 package object exceptions {
 
-  final case class CatalogValidationFailed(private val message: String = CatalogContainsMalformedItems,
-                                           private val cause: Throwable = new RuntimeException) extends Exception(message, cause)
+  final case class DuplicateItemsExist(private val message: String = DuplicateItemsExistMsg,
+                                       private val cause: Throwable = new RuntimeException) extends Exception(message, cause)
 
-  final case class FailedToLoadTheCatalog(private val message: String = FailedToLoadCatalog,
+  final case class FailedToLoadTheCatalog(private val message: String = FailedToLoadCatalogMsg,
                                           private val cause: Throwable = new RuntimeException) extends Exception(message, cause)
 
-  final case class IncorrectlyProvidedItems(private val message: String = IllegalInputArgsMessage,
+  final case class IncorrectlyProvidedItems(private val message: String = IllegalInputArgsMsg,
                                             private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 
-  final case class NotProvidedItems(private val message: String = s"No selected items. $IllegalInputArgsMessage",
+  final case class InvalidItems(private val message: String = InvalidItemsMsg,
+                                            private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
+
+  final case class NotProvidedItems(private val message: String = s"No selected items. $IllegalInputArgsMsg",
                                     private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 
-  final case class IncorrectlyProvidedSupplementItems(private val message: String = SupplementItemsIncorrectMessage,
+  final case class IncorrectlyProvidedSupplementItems(private val message: String = SupplementItemsIncorrectMsg,
                                                       private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 }

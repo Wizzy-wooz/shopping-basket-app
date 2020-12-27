@@ -59,7 +59,7 @@ object CashierService {
         }
       }
     }
-    Receipt(purchases.toSet)
+    Receipt(purchases.toList.distinct)
   }
 
   /**
