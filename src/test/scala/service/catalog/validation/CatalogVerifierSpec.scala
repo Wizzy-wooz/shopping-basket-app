@@ -74,4 +74,53 @@ class CatalogVerifierSpec extends AnyFlatSpec with GivenWhenThen {
       CatalogVerifier.validate(catalog)
     }
   }
+
+  it should "throw exception if discount is 0" in {
+    Given("Current catalog")
+    val catalog = Catalog(Set(
+      Item("M!lk", 1.30, None),
+      Item("Apples", 1.00, Some(Seq(SpecialOffer(0, None))))
+    ))
+
+    Then("exception should be thrown if discount is 0.")
+    assertThrows[InvalidItems] {
+      CatalogVerifier.validate(catalog)
+    }
+  }
+
+  it should "throw exception if discount is negative" in {
+    Given("Current catalog")
+    val catalog = Catalog(Set(
+      Item("Apples", 1.00, Some(Seq(SpecialOffer(-0.1, None))))
+    ))
+
+    Then("exception should be thrown if discount is negative.")
+    assertThrows[InvalidItems] {
+      CatalogVerifier.validate(catalog)
+    }
+  }
+
+  it should "throw exception if quantity of supplement item is 0" in {
+    Given("Current catalog")
+    val catalog = Catalog(Set(
+      Item("Bread", 0.80, Some(Seq(SpecialOffer(0.5, Some(SupplementItem(Item("Soup", 0.65, None), 0)))))),
+    ))
+
+    Then("exception should be thrown if quantity of supplement item is 0.")
+    assertThrows[IncorrectlyProvidedSupplementItems] {
+      CatalogVerifier.validate(catalog)
+    }
+  }
+
+  it should "throw exception if quantity of supplement item is negative" in {
+    Given("Current catalog")
+    val catalog = Catalog(Set(
+      Item("Bread", 0.80, Some(Seq(SpecialOffer(0.5, Some(SupplementItem(Item("Soup", 0.65, None), -2)))))),
+    ))
+
+    Then("exception should be thrown if quantity of supplement item is negative.")
+    assertThrows[IncorrectlyProvidedSupplementItems] {
+      CatalogVerifier.validate(catalog)
+    }
+  }
 }

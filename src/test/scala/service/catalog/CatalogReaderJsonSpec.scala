@@ -36,11 +36,11 @@ class CatalogReaderJsonSpec extends AnyFlatSpec with GivenWhenThen {
     }
   }
 
-  it should "throw exception if file corrupted" in {
+  it should "throw exception if file is corrupted" in {
     Given("name of the json file with items")
     val pathToCatalog = "corruptedCatalog"
 
-    Then("reader tries to decode json file exception should be thrown if file corrupted.")
+    Then("reader tries to decode json file exception should be thrown if file is corrupted.")
     assertThrows[FailedToLoadTheCatalog] {
       CatalogReaderJson.getCurrentCatalogFromPath(s"/${ConfigFactory.load().getString(pathToCatalog)}")
     }
