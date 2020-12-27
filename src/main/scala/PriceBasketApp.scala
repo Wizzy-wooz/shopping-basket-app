@@ -4,7 +4,7 @@ import service.basket.BasketServiceCommandLineInput
 import service.cashier.CashierService._
 import service.catalog.CatalogReaderJson
 import service.receipt.ReceiptWriterConsole._
-import validation.CatalogVerifier._
+import service.catalog.validation.CatalogVerifier._
 
 object PriceBasketApp extends App{
   val currentCatalog = CatalogReaderJson.getCurrentCatalogFromPath(s"/${ConfigFactory.load().getString("catalogFilePath")}")

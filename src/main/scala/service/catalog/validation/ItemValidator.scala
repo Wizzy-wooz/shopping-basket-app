@@ -1,4 +1,4 @@
-package validation
+package service.catalog.validation
 
 import cats.data.Validated._
 import cats.data._
@@ -8,7 +8,7 @@ import constants._
 import scala.collection.mutable.ListBuffer
 
 /**
-  * Interface that defines ways of item's validation
+  * Interface that defines ways of item's service.catalog.validation
   *
   */
 sealed trait ItemValidator {

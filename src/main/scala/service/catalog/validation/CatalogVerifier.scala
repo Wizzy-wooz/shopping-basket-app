@@ -1,4 +1,4 @@
-package validation
+package service.catalog.validation
 
 import exceptions.{CatalogValidationFailed, IncorrectlyProvidedSupplementItems}
 import model.catalog.Catalog

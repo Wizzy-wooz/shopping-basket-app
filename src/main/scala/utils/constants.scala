@@ -1,5 +1,5 @@
 package object constants {
-  val CatalogContainsMalformedItems = "Thus catalog validation failed."
+  val CatalogContainsMalformedItems = "Thus catalog service.catalog.validation failed."
   val DiscountIncorrect = "Discount cannot be 0 or negative."
   val EmptyString = ""
   val FailedToLoadCatalog = "Failed to load the catalog from the specified path."

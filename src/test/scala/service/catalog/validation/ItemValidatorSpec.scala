@@ -1,21 +1,20 @@
-package service.catalog
+package service.catalog.validation
 
+import cats.implicits._
 import model.item.{Item, SpecialOffer, SupplementItem}
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
-import validation.ItemValidator
-import cats.implicits._
 
 class ItemValidatorSpec extends AnyFlatSpec with GivenWhenThen{
   "ItemValidator" should "check correctness of the item" in {
     Given("Item")
     val item = Item("Bread", 0.80, Some(Seq(SpecialOffer(0.5, Some(SupplementItem(Item("Soup", 0.65, None), 2))))))
 
-    When("all selected items put in the basket")
+    When("item being validated")
     val validationResult: ItemValidator.ValidationResult[Item] =
       ItemValidator.validateItem(item.name, item.price, item.specialOffers)
 
-    Then("it contains all selected items with correct quantity.")
+    Then("its validatedResult should be valid.")
     val validatedName:ItemValidator.ValidationResult[String] = item.name.validNel
     val validatedPrice: ItemValidator.ValidationResult[BigDecimal] = item.price.validNel
     val validatedSpecialOffers:ItemValidator.ValidationResult[Option[Seq[SpecialOffer]]] = item.specialOffers.validNel
