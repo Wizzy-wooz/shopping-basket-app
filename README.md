@@ -13,7 +13,7 @@
     docker run --rm -it default/shopping-basket-app Milk Apples Bread
     
 ## Expected result
-Output should be to the console, for example:
+####Output should be to the console, for example:
 
 Subtotal: £3.10 
 
@@ -21,7 +21,7 @@ Apples 10% off: 10p
 
 Total price: £3.00 
 
-If no special offers are applicable the code should output:
+####If no special offers are applicable the code should output:
 
 Subtotal: £1.30
 
@@ -33,7 +33,7 @@ Total price: £1.30
 1. Added line with description of item, its price per item and quantity selected.
 2. Added special offer details.
 
-Output should be to the console, for example:
+####Output should be to the console, for example:
 
 Apples price:1.00£ qty:1
 
@@ -43,7 +43,7 @@ Apples 10% off: 10p
 
 Total price: £3.00
 
-If no special offers are applicable the code should output:
+####If no special offers are applicable the code should output:
 
 Milk price:1.30£ qty:1
 
