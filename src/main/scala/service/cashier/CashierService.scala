@@ -3,6 +3,7 @@ package service.cashier
 import model.item.{Item, SpecialOffer}
 import model.receipt.{Purchase, Receipt}
 import scala.collection.immutable
+import scala.math.BigDecimal.RoundingMode._
 
 /**
   * Service provides all operations that a cashier can do: checkout, special offers info, etc.
@@ -23,40 +24,55 @@ object CashierService {
       case (itemToBuy, quantity) => itemToBuy match {
 
         //use-case1: no special offers
-        case item if item.specialOffers.isEmpty => {
+        case item if item.specialOffers.isEmpty =>
           Purchase(s"${itemToBuy.name} price:${item.price}£ qty:$quantity",
             itemToBuy.price * quantity,
             constants.NoOffers)
-        }
 
-        //use-case2: items with special offers
-        case item => {
+        //use-case2: items with special offers discount but without supplement items discounts
+        case  item if item.specialOffers.get.forall(_.supplementItem.isEmpty) =>
+          val discountAppliedForAllItems: BigDecimal = item.specialOffers.get.map(_.discount).sum
+          Purchase(s"${itemToBuy.name} price:${item.price}£ qty:$quantity",
+            itemToBuy.price * quantity * (1- discountAppliedForAllItems),
+            s"${itemToBuy.name} ${(discountAppliedForAllItems * 100).intValue()}% off: £${discountAppliedForAllItems.setScale(2, HALF_UP)}")
+
+        //use-case3: items with all kinds of special offers:
+        // initially supplement items discounts is calculated and then overall discount is applied
+        case item =>
           val totalSum = item.price * quantity
-          val discountAndSpecialOfferDescription = item.specialOffers.get.map {
 
-            //use-case2.1: items with special offers: discount applied for all items
-            case specialOffer if specialOffer.supplementItem.isEmpty =>
-              val discount = totalSum * specialOffer.discount
-              (discount, s"${itemToBuy.name} ${(specialOffer.discount * 100).intValue()}% off: £${discount.doubleValue()}")
+          val discountAppliedForBuyingSupplementItems: Map[String, BigDecimal] = item.specialOffers.get.filter(_.supplementItem.nonEmpty).map{
 
-            //use-case2.2: items with special offers: discount applied for certain amount of items and for all items if such exists
-            case specialOffer =>
-              val discount = getNumberOfItemsWithDiscount(specialOffer, basket) * specialOffer.discount * item.price
-              val totalDiscount: BigDecimal = if (discount > totalSum) totalSum else discount
+            //items with special offers: discount applied for certain amount of items and then for all items if such exists
+            specialOffer =>
+              val numberOfItemsWithDiscountForBuyingSupplementItems = getNumberOfItemsWithDiscount(specialOffer, basket)
+              val discount = numberOfItemsWithDiscountForBuyingSupplementItems * specialOffer.discount * item.price
+              // here discount is 100%, get for free items for buying additional ones
+              val maxDiscount = getNumberOfItemsWithDiscount(specialOffer, basket) * item.price
+              //checking discount to avoid giving discount more than possible
+              val totalDiscountForBuyingSupplementItems: BigDecimal = if (discount > maxDiscount) maxDiscount else discount
               val discountFormatted = (specialOffer.discount * 100).intValue()
 
-              (totalDiscount,
-                s"${itemToBuy.name} $discountFormatted% off: £${totalDiscount.doubleValue()} -" +
-                  s" got $discountFormatted% off for 1 ${itemToBuy.name} b" +
-                  s"y buying ${specialOffer.supplementItem.get.quantity} ${specialOffer.supplementItem.get.item.name}")
+              (s"${itemToBuy.name} $discountFormatted% off: £${totalDiscountForBuyingSupplementItems.setScale(2, HALF_UP)} -" +
+                  s" got $discountFormatted% off for each ${itemToBuy.name} b" +
+                  s"y buying ${specialOffer.supplementItem.get.quantity} ${specialOffer.supplementItem.get.item.name}",
+                totalDiscountForBuyingSupplementItems)
           }.toMap
 
-          val discount: BigDecimal = discountAndSpecialOfferDescription.keySet.sum
-          Purchase(
-            s"${itemToBuy.name} price:${item.price}£ qty:$quantity",
-            if (totalSum - discount < 0) 0 else totalSum - discount,
-            discountAndSpecialOfferDescription.values.mkString("\n"))
-        }
+          val discountAppliedForSupplementItems: BigDecimal = discountAppliedForBuyingSupplementItems.values.sum
+          val specialOffersForBuyingSupplementItemsDescription = discountAppliedForBuyingSupplementItems.keySet.mkString("\n")
+          val discountAppliedForAllItems: BigDecimal = item.specialOffers.get.filter(_.supplementItem.isEmpty).map(_.discount).sum
+
+          val subtotal = (totalSum - discountAppliedForSupplementItems) * (1 - discountAppliedForAllItems)
+          val subTotalDiscount = (totalSum - discountAppliedForSupplementItems) *discountAppliedForAllItems
+
+          val specialOffersDescription  =
+            if (discountAppliedForAllItems <= 0) specialOffersForBuyingSupplementItemsDescription
+            else specialOffersForBuyingSupplementItemsDescription + "\n" + s"Plus for all " +
+              s"${itemToBuy.name} ${(discountAppliedForAllItems * 100).intValue()}% off:" +
+              s" £${subTotalDiscount.setScale(2, HALF_UP)}"
+
+          Purchase(s"${itemToBuy.name} price:${item.price}£ qty:$quantity", if (subtotal < 0) 0 else subtotal, specialOffersDescription)
       }
     }
     Receipt(purchases.toList.distinct)
@@ -68,7 +84,7 @@ object CashierService {
     * @param receipt
     * @return
     */
-  def findTotalSum(receipt: Receipt): Double = receipt.purchases.map(_.subtotal).sum.doubleValue()
+  def findTotalSum(receipt: Receipt): BigDecimal = receipt.purchases.map(_.subtotal).sum
 
   /**
     * Finds how many are there item's supplement item in a basket and how many should be bought to get discount.
