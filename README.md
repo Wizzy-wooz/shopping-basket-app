@@ -2,7 +2,7 @@
 ## Setup 
  ## 1. Check application.conf file and adjust it according to your needs. Example of catalog has been provided.
  ## 2. Running app via sbt: 
-     sbt> ;clean;compile;test
+     sbt> ;clean;compile;test;docker
      sbt> run <item1> <item2> <item3>
 ##### <item1> <item2> <item3> - items to buy. Example: 
     sbt> run Milk Apples Bread 
