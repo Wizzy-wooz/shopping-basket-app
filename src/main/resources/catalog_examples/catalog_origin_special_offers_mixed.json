@@ -1,0 +1,80 @@
+{
+  "items": [
+    {
+      "name": "Soup",
+      "price": 0.65,
+      "specialOffers": [
+        {
+          "discount": 0.1
+        },
+        {
+          "discount": 0.5,
+          "supplementItem": {
+            "item": {
+              "name": "Apples",
+              "price": 1.00
+            },
+            "quantity": 3
+          }
+        },
+        {
+          "discount": 0.5,
+          "supplementItem": {
+            "item": {
+              "name": "Milk",
+              "price": 1.30
+            },
+            "quantity": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bread",
+      "price": 0.80,
+      "specialOffers": [
+        {
+          "discount": 0.5,
+          "supplementItem": {
+            "item": {
+              "name": "Soup",
+              "price": 0.65
+            },
+            "quantity": 2
+          }
+        },
+        {
+          "discount": 0.5,
+          "supplementItem": {
+            "item": {
+              "name": "Milk",
+              "price": 1.30
+            },
+            "quantity": 1
+          }
+        },
+        {
+          "discount": 0.1
+        }
+      ]
+    },
+    {
+      "name": "Milk",
+      "price": 1.30,
+      "specialOffers": [
+        {
+          "discount": 0.2
+        }
+      ]
+    },
+    {
+      "name": "Apples",
+      "price": 1.00,
+      "specialOffers": [
+        {
+          "discount": 0.1
+        }
+      ]
+    }
+  ]
+}
