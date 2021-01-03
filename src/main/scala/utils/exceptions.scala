@@ -20,4 +20,6 @@ package object exceptions {
   final case class NotProvidedItems(private val message: String = s"No selected items. $IllegalInputArgsMsg",
                                     private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 
+  final case class TwoOverallDiscountsCantExist(private val message: String = MergeTwoOverallDiscountsInOneMsg,
+                                                      private val cause: Throwable = new IllegalArgumentException) extends Exception(message, cause)
 }

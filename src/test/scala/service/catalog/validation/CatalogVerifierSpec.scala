@@ -1,6 +1,6 @@
 package service.catalog.validation
 
-import exceptions.{DuplicateItemsExist, IncorrectlyProvidedSupplementItems, InvalidItems}
+import exceptions.{DuplicateItemsExist, IncorrectlyProvidedSupplementItems, InvalidItems, TwoOverallDiscountsCantExist}
 import model.catalog.Catalog
 import model.item.{Item, SpecialOffer, SupplementItem}
 import org.scalatest.GivenWhenThen
@@ -120,6 +120,18 @@ class CatalogVerifierSpec extends AnyFlatSpec with GivenWhenThen {
 
     Then("exception should be thrown if quantity of supplement item is negative.")
     assertThrows[IncorrectlyProvidedSupplementItems] {
+      CatalogVerifier.validate(catalog)
+    }
+  }
+
+  it should "throw exception if overall discount number per item is more than 1" in {
+    Given("Current catalog")
+    val catalog = Catalog(Set(
+      Item("Bread", 0.80, Some(Seq(SpecialOffer(0.5, None), SpecialOffer(0.5, None)))),
+    ))
+
+    Then("exception should be thrown 0f overall discount number per item is more than 1.")
+    assertThrows[TwoOverallDiscountsCantExist] {
       CatalogVerifier.validate(catalog)
     }
   }

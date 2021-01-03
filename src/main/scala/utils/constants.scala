@@ -6,6 +6,7 @@ package object constants {
   val IllegalInputArgsMsg = "Please specify items you want to buy as program's arguments, e.g.: item1 item2 item3 ..."
   val ItemNameIncorrectMsg = "name cannot contain special characters or be empty."
   val InvalidItemsMsg = "Please check that item(s) name(s), price(s) and special offers as they are incorrect."
+  val MergeTwoOverallDiscountsInOneMsg = "Found more than 1 overall discount. Please merge all of them in one or remove unnecessary."
   val Newline = "\n"
   val NoOffers = "(No offers available)"
   val PriceIncorrectMsg = "price cannot be 0 or negative."
